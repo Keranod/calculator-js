@@ -65,6 +65,13 @@ const operate = (operator, number1, number2) => {
     return "Error, unknown operator";
 }
 
+const containsDecimal = (value) => {
+    if (String(value).indexOf('.') !== -1) {
+        return true;
+    }
+    return false;
+}
+
 let number1 = null;
 let number2 = null;
 let operator = null;
@@ -174,6 +181,20 @@ buttonSubstract.addEventListener("click", () => {
 const buttonEquals = document.querySelector("#buttonEquals");
 buttonEquals.addEventListener("click", () => {
     operateOperatorButtons("=");
+})
+
+const buttonDecimal = document.querySelector("#buttonDecimal");
+buttonDecimal.addEventListener("click", () => {
+    if (number1 === null) return;
+
+    if (containsDecimal(number1) && number2 === null) return;
+
+    if (number2 === null) {
+        number1 = number1 + ".";
+        displayValue = number1;
+    }
+    
+    display.textContent = displayValue;
 })
 
 const buttonClear = document.querySelector("#buttonClear");
