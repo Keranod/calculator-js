@@ -65,10 +65,54 @@ const operate = (operator, number1, number2) => {
     return "Error, unknown operator";
 }
 
-let number1 = 0;
-let number2 = 0;
+let number1 = null;
+let number2 = null;
 let operator = null;
+let displayValue = null;
 
-console.log(operate("+",12,12))
-console.log(operate(":",12,12))
-console.log(operate("/",90,9))
+const operateButtons = (buttonAction) => {
+    if (isNumber(buttonAction)) {
+
+    }
+}
+
+const display = document.querySelector(".display");
+
+const button7 = document.querySelector("#button7");
+button7.addEventListener("click", () => {
+    if (!number1 || !operator) {
+        number1 = 7;
+        displayValue = number1;
+    } else if (!number2) {
+        number2 = 7;
+        displayValue = `${number1} ${operator} ${number2}`;
+    } else {
+        displayValue = operate(operator, number1, number2);
+        number1 = displayValue;
+        number2 = null;
+        operator = null;
+    }
+    display.textContent = displayValue;
+})
+
+const buttonSum = document.querySelector("#buttonSum");
+buttonSum.addEventListener("click", () => {
+    if (!number1) {
+        return;
+    } else if (number2) {
+        displayValue = operate(operator, number1, number2);
+        number1 = displayValue;
+        number2 = null;
+        operator = "+";
+    } else {
+        operator = "+";
+    }
+
+    if (!number2) {
+        displayValue = `${number1} ${operator}`;
+    } else {
+        displayValue = `${number1} ${operator} ${number2}`;
+    }
+
+    display.textContent = displayValue;
+})
