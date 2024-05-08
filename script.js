@@ -9,7 +9,7 @@ const sumAction = (value1, value2) => {
     if (!isNumber(value2)) {
         return "Error, value2 is not a number";
     }
-    return value1 + value2;
+    return Math.round((value1 + value2) * 100) / 100;
 }
 
 const substractAction = (value1, value2) => {
@@ -19,7 +19,7 @@ const substractAction = (value1, value2) => {
     if (!isNumber(value2)) {
         return "Error, value2 is not a number";
     }
-    return value1 - value2;
+    return Math.round((value1 - value2) * 100) / 100;
 }
 
 const multiplyAction = (value1, value2) => {
@@ -29,7 +29,7 @@ const multiplyAction = (value1, value2) => {
     if (!isNumber(value2)) {
         return "Error, value2 is not a number";
     }
-    return value1 * value2;
+    return Math.round((value1 * value2) * 100) / 100;
 }
 
 const divideAction = (value1, value2) => {
@@ -42,7 +42,7 @@ const divideAction = (value1, value2) => {
     if (value2 === 0) {
         return "Error, cannot divide by '0'"
     }
-    return value1 / value2;
+    return Math.round((value1 / value2) * 100) / 100;
 }
 
 const operate = (operator, number1, number2) => {
@@ -70,19 +70,27 @@ let number2 = null;
 let operator = null;
 let displayValue = null;
 
+const clear = () => {
+    number1 = null;
+    number2 = null;
+    displayValue = null;
+    operator = null;
+    display.textContent = displayValue;
+}
+
 const operateNumberButtons = (value) => {
     if (!isNumber(value)) {
         console.error("Button is not a number button");
         return;
     }
 
-    if (!number1) {
+    if (number1 === null) {
         number1 = value;
         displayValue = number1;
-    } else if (!operator) {
+    } else if (operator === null) {
         number1 = Number(String(number1) + value);
         displayValue = number1;
-    } else if (!number2) {
+    } else if (number2 === null) {
         number2 = value;
         displayValue = `${number1} ${operator} ${number2}`;
     } else {
@@ -93,18 +101,31 @@ const operateNumberButtons = (value) => {
 }
 
 const operateOperatorButtons = (scopeOperator) => {
-    if (!number1) {
+    if (String(displayValue).includes("Error")) {
+        clear();
+    }
+
+    if (number1 === null) {
         return;
-    } else if (number2) {
+    } else if (number2 !== null && scopeOperator !== "=") {
         displayValue = operate(operator, number1, number2);
         number1 = displayValue;
         number2 = null;
         operator = scopeOperator;
-    } else {
+    } else if (number2 !== null && scopeOperator === "=") {
+        displayValue = operate(operator, number1, number2);
+        number1 = displayValue;
+        number2 = null;
+        operator = null;
+    } else if (scopeOperator !== "=") {
         operator = scopeOperator;
+    } else {
+        return;
     }
 
-    if (!number2) {
+    if (scopeOperator === "=") {
+        displayValue = number1;
+    } else if (!number2) {
         displayValue = `${number1} ${operator}`;
     } else {
         displayValue = `${number1} ${operator} ${number2}`;
@@ -150,11 +171,12 @@ buttonSubstract.addEventListener("click", () => {
     operateOperatorButtons("-");
 })
 
+const buttonEquals = document.querySelector("#buttonEquals");
+buttonEquals.addEventListener("click", () => {
+    operateOperatorButtons("=");
+})
+
 const buttonClear = document.querySelector("#buttonClear");
 buttonClear.addEventListener("click", () => {
-    number1 = null;
-    number2 = null;
-    displayValue = null;
-    operator = null;
-    display.textContent = displayValue;
+    clear();
 })
