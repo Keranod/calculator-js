@@ -6,6 +6,7 @@
     height: 95vh;
     border: solid black 0.3vh;
     gap: 3%;
+    background-color: cornflowerblue;
 }
 
 .display {
@@ -16,6 +17,7 @@
     margin-top: 5%;
     align-items: end;
     font-size: 8vh;
+    background-color: aliceblue;
 }
 
 .buttons {
@@ -24,7 +26,6 @@
     justify-content: space-around;
     width: 90%;
     height: 60%;
-    border: dashed red 0.2vh;
 }
 
 .numbers {
@@ -34,7 +35,6 @@
     align-items: center;
     width: 55%;
     height: 95%;
-    border: dotted green 0.2vh;
 }
 
 .actions {
@@ -44,7 +44,6 @@
     justify-content: space-around;
     width: 40%;
     height: 95%;
-    border: dotted blue 0.2vh;
 }
 
 .numbers .button {
@@ -55,6 +54,7 @@
     width: 30%;
     height: 20%;
     border: solid black 0.2vh;
+    background-color: bisque;
 }
 
 .actions .button {
@@ -65,4 +65,5 @@
     width: 43%;
     height: 30%;
     border: solid black 0.2vh;
+    background-color: cadetblue;
 }

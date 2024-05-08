@@ -109,13 +109,13 @@ const operateNumberButtons = (value) => {
         number1 = value;
         displayValue = number1;
     } else if (operator === null) {
-        number1 = Number(String(number1) + value);
+        number1 = String(number1) + value;
         displayValue = number1;
     } else if (number2 === null) {
         number2 = value;
         displayValue = `${number1} ${operator} ${number2}`;
     } else {
-        number2 = Number(String(number2) + value);
+        number2 = String(number2) + value;
         displayValue = `${number1} ${operator} ${number2}`;
     }
     display.textContent = displayValue;
@@ -131,7 +131,7 @@ const operateOperatorButtons = (scopeOperator) => {
         return;
     } else if (number2 !== null && scopeOperator !== "=") {
         if (decimalLast(number2)) {
-            number2 = removeDecimal(number2);
+            number2 = removeDecimal(Number(number2));
         }
         displayValue = operate(operator, number1, number2);
         number1 = displayValue;
