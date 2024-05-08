@@ -72,6 +72,20 @@ const containsDecimal = (value) => {
     return false;
 }
 
+const decimalLast = (value) => {
+    const indexOfDecimal = String(value).indexOf('.');
+
+    if ((String(value).length - 1) === indexOfDecimal) {
+        return true;
+    }
+
+    return false;
+}
+
+const removeDecimal = (value) => {
+    return Number(String(value).slice(0,-1));
+}
+
 let number1 = null;
 let number2 = null;
 let operator = null;
@@ -110,21 +124,31 @@ const operateNumberButtons = (value) => {
 const operateOperatorButtons = (scopeOperator) => {
     if (String(displayValue).includes("Error")) {
         clear();
+        return;
     }
 
     if (number1 === null) {
         return;
     } else if (number2 !== null && scopeOperator !== "=") {
+        if (decimalLast(number2)) {
+            number2 = removeDecimal(number2);
+        }
         displayValue = operate(operator, number1, number2);
         number1 = displayValue;
         number2 = null;
         operator = scopeOperator;
     } else if (number2 !== null && scopeOperator === "=") {
+        if (decimalLast(number2)) {
+            number2 = removeDecimal(number2);
+        }
         displayValue = operate(operator, number1, number2);
         number1 = displayValue;
         number2 = null;
         operator = null;
     } else if (scopeOperator !== "=") {
+        if (decimalLast(number1)) {
+            number1 = removeDecimal(number1);
+        }
         operator = scopeOperator;
     } else {
         return;
@@ -192,8 +216,11 @@ buttonDecimal.addEventListener("click", () => {
     if (number2 === null) {
         number1 = number1 + ".";
         displayValue = number1;
+    } else if (!containsDecimal(number2)) {
+        number2 = number2 + ".";
+        displayValue = `${number1} ${operator} ${number2}`;
     }
-    
+
     display.textContent = displayValue;
 })
 
