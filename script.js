@@ -92,6 +92,27 @@ const operateNumberButtons = (value) => {
     display.textContent = displayValue;
 }
 
+const operateOperatorButtons = (scopeOperator) => {
+    if (!number1) {
+        return;
+    } else if (number2) {
+        displayValue = operate(operator, number1, number2);
+        number1 = displayValue;
+        number2 = null;
+        operator = scopeOperator;
+    } else {
+        operator = scopeOperator;
+    }
+
+    if (!number2) {
+        displayValue = `${number1} ${operator}`;
+    } else {
+        displayValue = `${number1} ${operator} ${number2}`;
+    }
+
+    display.textContent = displayValue;
+}
+
 const display = document.querySelector(".display");
 
 const numbers = document.querySelector(".numbers");
@@ -111,24 +132,22 @@ numbersButtons.forEach((button) => {
 
 const buttonSum = document.querySelector("#buttonSum");
 buttonSum.addEventListener("click", () => {
-    if (!number1) {
-        return;
-    } else if (number2) {
-        displayValue = operate(operator, number1, number2);
-        number1 = displayValue;
-        number2 = null;
-        operator = "+";
-    } else {
-        operator = "+";
-    }
+    operateOperatorButtons("+");
+})
 
-    if (!number2) {
-        displayValue = `${number1} ${operator}`;
-    } else {
-        displayValue = `${number1} ${operator} ${number2}`;
-    }
+const buttonDivide = document.querySelector("#buttonDivide");
+buttonDivide.addEventListener("click", () => {
+    operateOperatorButtons("/");
+})
 
-    display.textContent = displayValue;
+const buttonMultiply = document.querySelector("#buttonMultiply");
+buttonMultiply.addEventListener("click", () => {
+    operateOperatorButtons("*");
+})
+
+const buttonSubstract = document.querySelector("#buttonSubstract");
+buttonSubstract.addEventListener("click", () => {
+    operateOperatorButtons("-");
 })
 
 const buttonClear = document.querySelector("#buttonClear");
