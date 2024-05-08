@@ -70,29 +70,43 @@ let number2 = null;
 let operator = null;
 let displayValue = null;
 
-const operateButtons = (buttonAction) => {
-    if (isNumber(buttonAction)) {
-
+const operateNumberButtons = (value) => {
+    if (!isNumber(value)) {
+        console.error("Button is not a number button");
+        return;
     }
+
+    if (!number1) {
+        number1 = value;
+        displayValue = number1;
+    } else if (!operator) {
+        number1 = Number(String(number1) + value);
+        displayValue = number1;
+    } else if (!number2) {
+        number2 = value;
+        displayValue = `${number1} ${operator} ${number2}`;
+    } else {
+        number2 = Number(String(number2) + value);
+        displayValue = `${number1} ${operator} ${number2}`;
+    }
+    display.textContent = displayValue;
 }
 
 const display = document.querySelector(".display");
 
-const button7 = document.querySelector("#button7");
-button7.addEventListener("click", () => {
-    if (!number1 || !operator) {
-        number1 = 7;
-        displayValue = number1;
-    } else if (!number2) {
-        number2 = 7;
-        displayValue = `${number1} ${operator} ${number2}`;
-    } else {
-        displayValue = operate(operator, number1, number2);
-        number1 = displayValue;
-        number2 = null;
-        operator = null;
-    }
-    display.textContent = displayValue;
+const numbers = document.querySelector(".numbers");
+const numbersButtons = Array.from(numbers.querySelectorAll(".button")).slice(0, -1);
+
+numbersButtons.forEach((button) => {
+    const buttonId = button.getAttribute("id");
+
+    const buttonNumber = Number(button.getAttribute("id").match(/\d+/)[0]);
+    button.addEventListener("click", () => {
+        operateNumberButtons(buttonNumber);
+        if (buttonId === "button00") {
+            operateNumberButtons(buttonNumber);
+        }
+    });
 })
 
 const buttonSum = document.querySelector("#buttonSum");
