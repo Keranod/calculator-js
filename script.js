@@ -130,3 +130,12 @@ buttonSum.addEventListener("click", () => {
 
     display.textContent = displayValue;
 })
+
+const buttonClear = document.querySelector("#buttonClear");
+buttonClear.addEventListener("click", () => {
+    number1 = null;
+    number2 = null;
+    displayValue = null;
+    operator = null;
+    display.textContent = displayValue;
+})
